@@ -1,0 +1,196 @@
+<html>
+	<head>
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+	</head>
+<body>
+	<style>
+		select{
+			height: 30px;
+		}
+		button{			
+			width: 120px !Important;
+		}
+	</style>
+	
+	<div class="container">
+
+		<div class="row p-2 badge-info">
+			<div class="col-md-12 text-center">
+				<h3>Kaffa - Pre-qualification test (v1.5)</h3>
+			</div>
+		</div>
+
+		<div class="row">
+		
+		<div class="col-sm-12 col-md-6">
+			<div class="row badge-light m-1 mt-3 border">
+				<div class="col-md-12 text-center border-bottom p-2">
+					<h5><span class="badge badge-dark">1</span> </h5>
+				</div>
+				<div class="col-md-12 text-left pt-2">
+					<h6>----</h6>
+					<p><button class="btn btn-default">Add</button></p>
+					<p><button class="btn btn-default">Remove</button></p>
+				</div>
+			</div>
+		</div>
+
+		<div class="col-sm-12 col-md-6">
+			<div class="row badge-light m-1 mt-3 border">
+				<div class="col-md-12 text-center border-bottom p-2">
+					<h5><span class="badge badge-dark">2</span> </h5>
+				</div>
+				<div class="col-md-12 text-left pt-2">
+					<h6>----</h6>
+					<p><button class="btn btn-default">Add</button></p>
+					<p><button class="btn btn-default">Remove</button></p>
+				</div>
+			</div>
+		</div>
+
+		<div class="col-sm-12 col-md-6">
+			<div class="row badge-light m-1 mt-3 border">
+				<div class="col-md-12 text-center border-bottom p-2">
+					<h5><span class="badge badge-dark">3</span> Test if two rectangles intersect</h5>
+				</div>
+				<div class="col-md-12 text-left pt-2">
+					<h6>Rectangle dimension</h6>
+					<p>
+						<select id="rectangleName">
+							<option value="A">A</option>
+							<option value="B">B</option>
+							<option value="C">C</option>
+							<option value="D">D</option>
+							<option value="E">E</option>
+							<option value="F">F</option>
+							<option value="G">G</option>
+							<option value="H">H</option>
+						</select>
+						<input id="dimension" placeholder="Example 3,5;11,11" type="text"/>
+						<input id="rectInfo" placeholder="Example A,B" type="text"/>
+					</p>
+					<p>
+						<ul id="rectangleList" class="list-group">
+						</ul>
+					</p>	
+					<p>
+						<button onclick="addRectangle()" class="btn btn-default">Add</button>						
+						<button onclick="intersects()" class="btn btn-primary">Intersect</button>
+					</p>
+				</div>
+			</div>
+		</div>
+
+		<div class="col-sm-12 col-md-6">
+			<div class="row badge-light m-1 mt-3 border">
+				<div class="col-md-12 text-center border-bottom p-2">
+					<h5><span class="badge badge-dark">4</span> </h5>
+				</div>
+				<div class="col-md-12 text-left pt-2">
+					<h6>----</h6>
+					<p><button class="btn btn-default">Add</button></p>
+					<p><button class="btn btn-default">Remove</button></p>
+				</div>
+			</div>
+		</div>
+
+		</div>
+
+	</div>
+	
+	
+	<script>
+
+	function addRectangle(){
+		let dimension = $("#dimension").val().trim();
+		dimension = dimension.replace(";,","").replace(",;","").replace(",;,","");
+
+		let rect = dimension.split(";");
+		let test = dimension.split(",");
+
+		if ( rect.length != 2 || rect[0] == "" || rect[rect.length-1] == ""){
+			alert("Dimensão inválida!");
+			return;
+		}
+		if ( test.length != 3 || test[0] == "" || test[test.length-1] == ""){
+			alert("Dimensão inválida!");
+			return;
+		}
+
+		let recID = "rectAdd_"+$("#rectangleName").val();
+		if ( $("#"+recID).html() != "" ){
+			$("#"+recID).remove();
+		}		
+		let list = $("#rectangleList").html();
+
+		var xhttp = new XMLHttpRequest();
+		xhttp.onreadystatechange = function() {
+			if (this.readyState == 4 && this.status == 200) {
+				
+
+				$("#rectangleList").html(list+
+					"<li id='"+recID+"' class='list-group-item'>"+
+					$("#rectangleName").val()+" = "+
+					"("+dimension+")"+
+					"</li>");
+
+				$("#dimension").val("");
+			}
+		};
+		xhttp.open("GET", "/api/addrectangle?"+$("#rectangleName").val()+"="+dimension, true);
+		xhttp.send();
+	}
+	function intersects(){
+		let dimension = $("#rectInfo").val().trim();
+
+		var xhttp = new XMLHttpRequest();
+		xhttp.onreadystatechange = function() {
+			if (this.readyState == 4 && this.status == 200) {
+				alert(this.responseText);
+			}
+		};
+		xhttp.open("GET", "/api/intersects?i="+dimension, true);
+		xhttp.send();
+	}
+
+
+	function calculaRotas() {
+		var xhttp = new XMLHttpRequest();
+		xhttp.onreadystatechange = function() {
+			if (this.readyState == 4 && this.status == 200) {
+				document.getElementById("rotas").innerHTML = this.responseText.replace(/,/g,"<br>");
+			}
+		};
+		xhttp.open("GET", "/api/calcularotas", true);
+		xhttp.send();
+	}
+	function carregaTrechos() {
+		var xhttp = new XMLHttpRequest();
+		xhttp.onreadystatechange = function() {
+			if (this.readyState == 4 && this.status == 200) {
+				document.getElementById("trechos").innerText = this.responseText.replace(/,/g,"<br>");
+			}
+		};
+		xhttp.open("GET", "/api/carregatrechos", true);
+		xhttp.send();
+	}
+	function carregaEncomendas() {
+		var xhttp = new XMLHttpRequest();
+		xhttp.onreadystatechange = function() {
+			if (this.readyState == 4 && this.status == 200) {
+				document.getElementById("encomendas").innerText = this.responseText.replace(/,/g,"<br>");
+			}
+		};
+		xhttp.open("GET", "/api/carregaencomendas", true);
+		xhttp.send();
+	}
+
+	</script>
+
+
+	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>		
+
+</body>
+</html>
