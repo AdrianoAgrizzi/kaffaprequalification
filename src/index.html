@@ -10,6 +10,38 @@
 		button{			
 			width: 120px !Important;
 		}
+		li{
+			padding: 1px 10px 1px 10px !important;
+		}
+
+		.border-bottom{
+			height: 45px !Important;
+		}
+		.border{
+			height: 90% !Important;
+		}
+		.box{
+			height: 350px;
+		}
+		.btr{
+			width: 30px !important;
+			margin-left: 15px !important;
+    		padding-left: 10px !important;
+			float: right !important;
+			padding: 0px 10px 0px 0px;
+		}
+		.todoList{
+			overflow: auto;
+    		height: 100px;
+		}
+		.imgDiagram{
+			width: 100%;
+			height: 86%;
+		}
+		.mbdiagram{
+			height:  90vh;
+			max-width: 90vw;
+		}
 	</style>
 	
 	<div class="container">
@@ -22,33 +54,41 @@
 
 		<div class="row">
 		
-		<div class="col-sm-12 col-md-6">
-			<div class="row badge-light m-1 mt-3 border">
-				<div class="col-md-12 text-center border-bottom p-2">
-					<h5><span class="badge badge-dark">1</span> </h5>
-				</div>
-				<div class="col-md-12 text-left pt-2">
-					<h6>----</h6>
-					<p><button class="btn btn-default">Add</button></p>
-					<p><button class="btn btn-default">Remove</button></p>
-				</div>
-			</div>
-		</div>
-
-		<div class="col-sm-12 col-md-6">
-			<div class="row badge-light m-1 mt-3 border">
-				<div class="col-md-12 text-center border-bottom p-2">
-					<h5><span class="badge badge-dark">2</span> </h5>
-				</div>
-				<div class="col-md-12 text-left pt-2">
-					<h6>----</h6>
-					<p><button class="btn btn-default">Add</button></p>
-					<p><button class="btn btn-default">Remove</button></p>
+			<div class="col-sm-12 col-md-6 box">
+				<div class="row badge-light m-1 mt-3 border">
+					<div class="col-md-12 text-left border-bottom p-2">
+						<h5><span class="badge badge-dark">1</span> Validate CNPJ format (Mask)</h5>
+					</div>
+					<div class="col-md-12 text-left pt-2">	
+						<p>
+							<input onclick="cnpjMask()" name="ckCnpj" type="radio" id="cnpjFormatted" checked/>Formatted 
+							<input onclick="cnpjMask()" name="ckCnpj" type="radio" id="cnpjNumber" />Number only
+						</p>					
+						<p>							
+							<input oninput="cnpjMask()" onkeydown="cnpjMask()" id="cnpj" type="text" maxlength="18"/>
+						</p>
+						
+						<p>
+							<button onclick="validaCNPJ()" class="btn btn-default">Validate</button>
+						</p>
+					</div>
 				</div>
 			</div>
-		</div>
 
-		<div class="col-sm-12 col-md-6">
+			<div class="col-sm-12 col-md-6 box">
+				<div class="row badge-light m-1 mt-3 border">
+					<div class="col-md-12 text-left border-bottom p-2">
+						<h5><span class="badge badge-dark">2</span> Validate CNPJ digits</h5>
+					</div>
+					<div class="col-md-12 text-left pt-2">							
+						<p>
+							<button onclick="validaDigitsCNPJ()" class="btn btn-default">Validate</button>
+						</p>
+					</div>
+				</div>
+			</div>
+
+		<div class="col-sm-12 col-md-6 box">
 			<div class="row badge-light m-1 mt-3 border">
 				<div class="col-md-12 text-left border-bottom p-2">
 					<h5><span class="badge badge-dark">3</span> Test if two rectangles intersect</h5>
@@ -81,7 +121,7 @@
 			</div>
 		</div>
 
-		<div class="col-sm-12 col-md-6">
+		<div class="col-sm-12 col-md-6 box">
 			<div class="row badge-light m-1 mt-3 border">
 				<div class="col-md-12 text-left border-bottom p-2">
 					<h5><span class="badge badge-dark">4</span> Compute area of intersection between two rectangles</h5>
@@ -108,16 +148,117 @@
 					</p>	
 					<p>
 						<button onclick="addRectangle(true)" class="btn btn-default">Add</button>						
-						<button onclick="intersects(true)" class="btn btn-primary">Intersect</button>
+						<button onclick="intersects(true)" class="btn btn-primary">Area</button>
 					</p>
 				</div>
 			</div>
 		</div>
 
+		<div class="col-sm-12 col-md-6 box">
+			<div class="row badge-light m-1 mt-3 border">
+				<div class="col-md-12 text-left border-bottom p-2">
+					<h5><span class="badge badge-dark">5</span> Simple Todo List</h5>
+				</div>
+				<div class="col-md-12 text-left pt-2">
+					<h6>Todo</h6>
+					<p>						
+						<input id="todoDate" type="date"/>
+						<select id="todoTask">
+							<option selected value="Task">Task</option>
+							<option value="Alarm">Alarm</option>
+							<option value="Family">Family</option>
+							<option value="Meeting">Meeting</option>
+							<option value="Plan">Plan</option>
+							<option value="Shopping">Shopping</option>
+							<option value="Work">Work</option>
+						</select>
+						<input id="todoText" placeholder="My exame" type="text"/>
+					</p>
+					<div class="todoList">
+						<ul id="todoList" class="list-group">
+						</ul>
+					</div>	
+					<p>
+						<br>
+						<button onclick="todolistadd()" class="btn btn-default">Add</button>						
+						<button onclick="todolist()" class="btn btn-success">Load</button>
+					</p>
+				</div>
+			</div>
 		</div>
 
+		<div class="col-sm-12 col-md-6 box">
+			<div class="row badge-light m-1 mt-3 border">
+				<div class="col-md-12 text-left border-bottom p-2">
+					<h5><span class="badge badge-dark">6</span> Rest Client - World Clock</h5>
+				</div>
+				<div class="col-md-12 text-left pt-2">					
+					<p>
+						<ul id="restClient" class="list-group">
+						</ul>
+					</p>	
+					<p>
+						<button onclick="restClient()" class="btn btn-default">Queries</button>
+					</p>
+				</div>
+			</div>
+		</div>
+
+		<div class="col-sm-12 col-md-6 box">
+			<div class="row badge-light m-1 mt-3 border">
+				<div class="col-md-12 text-left border-bottom p-2">
+					<h5><span class="badge badge-dark">7</span> Rest Server - World Clock</h5>
+				</div>
+				<div class="col-md-12 text-left pt-2">					
+					<p>
+						<ul id="restServer" class="list-group">
+						</ul>
+					</p>	
+					<p>
+						<button onclick="restServer()" class="btn btn-default">Queries</button>
+					</p>
+				</div>
+			</div>
+		</div>
+
+		<div class="col-sm-12 col-md-6 box" >
+			<div class="row badge-light m-1 mt-3 border">
+				<div class="col-md-12 text-left border-bottom p-2">
+					<h5><span class="badge badge-dark">8</span> Entity Relationship Diagram - Simple Order Manager</h5>
+				</div>
+				<div class="col-md-12 text-left pt-2">					
+					<p>
+						<img onclick="$('#modalDiagram').modal('show')" class="imgDiagram" src="/data/diagram.png">
+					</p>						
+				</div>
+			</div>
+		</div>
+
+
+
+		<div class="col-md-12 badge-dark mt-5 ml-3 mr-3">
+			<p><br></p>
+		</div>
+		</div>
 	</div>
 	
+	
+	<div class="modal fade" id="modalDiagram" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered mbdiagram" role="document">
+		  <div class="modal-content">
+			<div class="modal-header">
+			  <h5 class="modal-title" id="exampleModalLongTitle">Entity Relationship Diagram</h5>
+			  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+				<span aria-hidden="true">&times;</span>
+			  </button>
+			</div>
+			<div class="modal-body mbdiagram">
+				<img class="imgDiagram" src="/data/diagram.png">
+			</div>			
+		  </div>
+		</div>
+	  </div>
+
 	
 	<script>
 
@@ -182,7 +323,209 @@
 	}
 
 
+	function todolist(){
+		let list = $("#todoList").html();
+
+		var xhttp = new XMLHttpRequest();
+		xhttp.onreadystatechange = function() {
+			if (this.readyState == 4 && this.status == 200) {				
+				let arrayList = [];
+				let htmlList = "";
+				if ( this.responseText.trim() != ""){
+					arrayList = this.responseText.trim().split(",");
+				}
+				
+				if ( arrayList.length < 1 ){
+					htmlList = "Nenhuma tarefa";
+				}
+				else{
+					for(i=1; i<arrayList.length; i++){
+						let id = arrayList[i].split(";")[0];
+						let dia = arrayList[i].split(";")[1];
+						dia = new Date(dia.split('-')[0],Number(dia.split('-')[1])-1,dia.split('-')[2]);
+						
+						htmlList +=	"<li id='"+id+"' class='list-group-item'>"+
+									dia.toLocaleDateString('en', {weekday:'short'})+", "+
+									dia.getDate()+"/"+Number(dia.getMonth()+1)+"/"+dia.getFullYear()+" | "+
+									arrayList[i].split(";")[2]+" | "+
+									arrayList[i].split(";")[3]+
+
+									"<button onclick='todolistremove("+id+")' class='btn btn-danger btr'>X</button>"+
+
+									"</li>";
+					}
+				}
+				$("#todoList").html(htmlList);
+			}
+		};
+		xhttp.open("GET", "/api/todolist", true);
+		xhttp.send();
+	}
+	function todolistadd(){
+		let todoDate = $("#todoDate").val().trim();
+		let todoText = $("#todoText").val().trim().replace(";","");
+		let todoTask = $("#todoTask").val();
+
+		if ( todoText == "" || todoDate == ""){
+			alert("Favor informar os dados!");
+			return;
+		}
+
+		var xhttp = new XMLHttpRequest();
+		xhttp.onreadystatechange = function() {
+			if (this.readyState == 4 && this.status == 200) {
+				todolist();
+			}
+		};
+		xhttp.open("PUT", "/api/todolistadd?todo="+todoDate+";"+todoTask+";"+todoText, true);
+		xhttp.send();
+	}
+
+	function todolistremove(id){
+		if ( !confirm("Confirma remover esta tarefa?") ) return;
+
+		var xhttp = new XMLHttpRequest();
+		xhttp.onreadystatechange = function() {
+			if (this.readyState == 4 && this.status == 200) {
+				todolist();
+			}
+		};
+		xhttp.open("DELETE", "/api/todolistremove?id="+id, true);
+		xhttp.send();
+	}
 	
+	function restClient(){
+		var xhttp = new XMLHttpRequest();
+		xhttp.onreadystatechange = function() {
+			if (this.readyState == 4 && this.status == 200) {
+				let currentDateTime = this.response.currentDateTime;
+				let dayOfTheWeek = this.response.dayOfTheWeek;
+				$("#restClient").html("<li class='list-group'>"+currentDateTime+" - "+
+									dayOfTheWeek+"</li>");
+			}
+		};
+		xhttp.responseType = 'json';
+		xhttp.open("GET", "http://worldclockapi.com/api/json/utc/now", true);
+		xhttp.send();
+	}
+
+	function restServer(){
+		var xhttp = new XMLHttpRequest();
+		xhttp.onreadystatechange = function() {
+			if (this.readyState == 4 && this.status == 200) {
+				//let currentDateTime = this.response.currentDateTime;
+				console.log(this.response);
+				$("#restServer").html("<li class='list-group'>"+JSON.stringify(this.response)+"</li>");
+			}
+		};
+		xhttp.responseType = 'json';
+		xhttp.open("GET", "/api/restServer", true);
+		xhttp.send();
+	}
+	
+	function cnpjMask(){
+		let cnpj = $("#cnpj").val();
+
+		if ($("#cnpjFormatted").prop("checked")){
+			$("#cnpj").attr("maxlength","18");
+
+			cnpj=cnpj.replace(/\D/g,"");
+			cnpj=cnpj.replace(/^(\d{2})(\d)/,"$1.$2");
+			cnpj=cnpj.replace(/^(\d{2})\.(\d{3})(\d)/,"$1.$2.$3");
+			cnpj=cnpj.replace(/\.(\d{3})(\d)/,".$1/$2");
+			cnpj=cnpj.replace(/(\d{4})(\d)/,"$1-$2");
+		}
+		else{
+			$("#cnpj").attr("maxlength","14");
+
+			cnpj = cnpj.match(/\d+/g);
+			cnpj = cnpj.join('');
+		}
+		
+
+		$("#cnpj").val(cnpj);
+	}
+	function validaCNPJ(msg){
+		let cnpj = $("#cnpj").val().trim();
+
+		if ($("#cnpjFormatted").prop("checked")){
+			if (cnpj.length < 18){
+				if (msg == null){ 
+					alert("CNPJ inválido!"); 
+					return false;
+				};
+			}
+			else{
+				if (msg == null){
+					alert("CNPJ OK!")
+				}
+				else{
+					return true;
+				}
+			}
+		}
+		else{
+			if (cnpj.length < 14){
+				if (msg == null){
+					alert("CNPJ inválido!");
+					return false;
+				}
+			}
+			else{
+				if (msg == null){
+					alert("CNPJ OK!")
+				}
+				else{
+					return true;
+				}
+			}			
+		}		
+	}
+	
+	function validaDigitsCNPJ(){
+		if ( validaCNPJ(1) == false ){
+			alert("Dígito do CNPJ inválido!");
+			return;
+		}
+
+		let cnpj = $("#cnpj").val().trim();
+		cnpj = cnpj.match(/\d+/g);
+		cnpj = cnpj.join('');
+
+		let algarismos = String(cnpj).substr(0,12);
+		let digitoInformado = String(cnpj).substr(12,2);
+		let peso = "6543298765432";
+		let digito1 = 0;
+		let digito2 = 0;
+		let resto = 0;
+
+		// Cálculo do dígito 1
+		for (i=0;i<12;i++){
+			digito1 += Number(algarismos[i]) * Number(peso[i+1]);
+		}
+		resto = 11 - (digito1 % 11);
+		resto < 2 ? digito1 = 0 : digito1 = resto;
+
+		// Cálculo do dígito 2
+		algarismos += digito1;
+		for (i=0;i<13;i++){
+			digito2 += Number(algarismos[i]) * Number(peso[i]);
+		}
+		resto = 11 - (digito2 % 11);
+		resto < 2 ? digito2 = 0 : digito2 = resto;
+
+;		// Verifica se o dígito cálculado é igual ao informado
+		if (digitoInformado == String(digito1)+String(digito2)){
+			alert("Dígito verificador OK!");
+		}
+		else{
+			alert("Dígito do CNPJ inválido!");
+		}
+	}
+
+	setTimeout(()=>{
+		todolist();
+	}, 300);
 
 	</script>
 

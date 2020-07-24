@@ -1,0 +1,1 @@
+,4;2020-07-25;Family;Bike as 10:00h,5;2020-07-26;Shopping;Compras 12:00h,6;2020-07-23;Task;Hoje as 12:00h,7;2020-07-25;Plan;Plano

@@ -1,17 +1,21 @@
 const { Console } = require('console');
+const fs = require('fs');
 
-fs = require('fs');
 
 const Servicos = function(servicos) {
 };
 
+
+// *********************************************************
+// 3) Test if two rectangles intersect
+// 4) Compute area of intersection between two rectangles
+// *********************************************************
 // Matriz que armazena os retângulos
 var rectangles = [];
 var area_rectangles = [];
-
-// 3) Test if two rectangles intersect
+// serviço para adicionar os retângulos
 Servicos.addrectangle = (rect, area, retorno) => {
-  // serviço para adicionar os retângulos
+  // Pega a query string
   rect = rect.trim().split('&')[0];
   rect = rect.replace("(","").replace(")","");
 
@@ -21,6 +25,7 @@ Servicos.addrectangle = (rect, area, retorno) => {
   let values = rect.split('=')[1];
   let rectAux = [];
 
+  // Verifica se é Área ou Interseção
   area = area == "true";
   area ? rectAux = area_rectangles : rectAux = rectangles;
   let r = rectAux.indexOf(key);
@@ -39,22 +44,22 @@ Servicos.addrectangle = (rect, area, retorno) => {
 
   retorno(0);
 };
+// Realiza o cálculo da interseção dos retângulos
 Servicos.intersects = (rect, area, retorno) => {
-  // Realiza o cálculo da interseção dos retângulos
   if (rect == undefined || rect.trim() == ""){
     retorno(false);
     return;
   }
 
+  // Pega o nome dos retângulos
   let rect1 = String(rect.split(',')[0]).toUpperCase();
   let rect2 = String(rect.split(',')[1]).toUpperCase();
 
-
+  // Verifica se é Área ou Interseção
   let rectAux = [];
   area = area == "true";
   area ? rectAux = area_rectangles.slice() : rectAux = rectangles.slice();
 
-  console.log(rectAux);
   // Verifica se os retângulos foram adicionados
   let r1 = rectAux.indexOf(rect1);
   if ( r1 == -1 ) {
@@ -115,12 +120,11 @@ Servicos.intersects = (rect, area, retorno) => {
     }
   }
 
-
   if ( yesIntersectsX && yesIntersectsY ) {
+    // Se entrou existe interseção
 
-    console.log(area);
+    // Verifica se é área
     if (area){
-      console.log("area");
       // Realiza o cálculo da área Z
       let contAreaX = 0;
       for (i in rect1X){
@@ -139,14 +143,113 @@ Servicos.intersects = (rect, area, retorno) => {
       retorno(contAreaX * contAreaY);
     }
     else{
-      console.log("interseção");
+      // Interseção Sim
       retorno(true);
     }
   }
   else{
+    // Interseção Não
     retorno(false);
   }  
 };
 
+// *********************************************************
+// 5) Simple Todo List
+// *********************************************************
+var filetodolist = "src/data/todolist.txt";
+
+Servicos.todolist = (retorno) => {
+  // Array da lista a fazer
+  let arrayTodo = [];
+
+  // Verifica se o arquivo existe  
+  fs.stat(filetodolist, (err, stats) => {
+    if (err) throw err;
+
+    // Carrega o arquivo e adiciona o a fazer
+    fs.readFile(filetodolist, (err, data) => {
+      if (err) throw err;
+
+      arrayTodo = data.toString().split("\n"); 
+      //console.log(arrayTodo);
+      retorno(arrayTodo);
+    });         
+  });
+
+}
+Servicos.todolistadd = (todo, retorno) => {
+  // Array da lista a fazer
+  let arrayTodo = [];
+  // adiciona na array e grava no aruivo
+  function add(){
+    let id = 0;
+    if ( arrayTodo.length > 1 ){
+      id = Number(arrayTodo[arrayTodo.length-1].split(';')[0])+1;
+    }    
+    arrayTodo.push(id+";"+todo);
+
+    fs.writeFile(filetodolist, arrayTodo.toString(),()=>{});
+    retorno(0);
+  }
+
+  // Verifica se o arquivo existe  
+  fs.stat(filetodolist, (err, stats) => {
+    if (err) {
+      add();
+    }
+    else{
+      // Carrega o arquivo e adiciona o a fazer
+      fs.readFile(filetodolist, (err, data) => {
+        if (err) throw err;
+
+        arrayTodo = data.toString().split(","); 
+        add();
+      });  
+    }   
+  });
+}
+Servicos.todolistremove = (id, retorno) => {
+  // Array da lista a fazer
+  let arrayTodo = [];
+  // Verifica se o arquivo existe  
+  fs.stat(filetodolist, (err, stats) => {
+    if (err) {
+      retorno(0);
+    }
+    else{
+      // Carrega o arquivo e adiciona o a fazer
+      fs.readFile(filetodolist, (err, data) => {
+        if (err) throw err;
+
+        // Localiza a tarefa pelo id
+        arrayTodo = data.toString().split(",");
+        let task = -1;
+        for (i in arrayTodo){
+          if (arrayTodo[i].split(';')[0] == id){
+            task = i;
+            break;
+          }
+        }
+        
+        // Remove
+        if (task > -1) arrayTodo.splice(task,1);
+
+        fs.writeFile(filetodolist, arrayTodo.toString(),()=>{});
+        retorno(0);
+      });  
+    }   
+  });  
+}
+
+
+
+// *********************************************************
+// 7) Rest Server - World Clock
+// *********************************************************
+Servicos.restServer = (retorno) => {
+  let currentDateTime = new Date();
+
+  retorno({currentDateTime});
+}
 
 module.exports = Servicos; 
